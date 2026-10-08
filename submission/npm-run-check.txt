@@ -1,0 +1,20 @@
+ShopSmart Laboratory 1 final project check
+Date: 2026-09-28
+
+Command
+npm run check
+
+Result
+PASS
+
+Completed stages
+- Frontend ESLint: passed
+- Backend ESLint: passed
+- Frontend Vitest: 1 file passed, 4 tests passed
+- Backend node:test: 6 tests passed
+- Frontend Vite production build: passed, 52 modules transformed
+
+Build output
+- dist/index.html: 0.49 kB (gzip 0.30 kB)
+- dist/assets/index-CoWcbNrj.css: 4.30 kB (gzip 1.48 kB)
+- dist/assets/index-CHKwRV51.js: 272.21 kB (gzip 86.21 kB)

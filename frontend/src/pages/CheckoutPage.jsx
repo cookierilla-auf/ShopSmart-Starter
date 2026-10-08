@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import StatusMessage from '../components/StatusMessage.jsx';
 import { useCart } from '../context/CartContext.jsx';
+import { calculateItemSubtotal } from '../utils/cart.js';
 import { api } from '../services/api.js';
 
 export default function CheckoutPage() {
@@ -55,7 +56,22 @@ export default function CheckoutPage() {
         <label>Delivery address<textarea name="address" value={form.address} onChange={updateField} minLength="10" maxLength="300" required /></label>
         <button disabled={submitting}>{submitting ? 'Submitting order…' : 'Place simulated order'}</button>
       </form>
-      <aside className="summary"><h2>Amount due</h2><p className="summary-total"><span>Total</span><strong>₱{total.toLocaleString('en-PH')}</strong></p><small>No actual payment will be collected.</small></aside>
+      <aside className="summary">
+        <h2>Order review</h2>
+        <ul className="checkout-items" aria-label="Items in this order">
+          {cart.map((item) => (
+            <li key={item.productId}>
+              <span>
+                <strong>{item.name}</strong>
+                <small>Quantity: {item.quantity}</small>
+              </span>
+              <strong>₱{calculateItemSubtotal(item).toLocaleString('en-PH', { minimumFractionDigits: 2 })}</strong>
+            </li>
+          ))}
+        </ul>
+        <p className="summary-total"><span>Total</span><strong>₱{total.toLocaleString('en-PH')}</strong></p>
+        <small>No actual payment will be collected.</small>
+      </aside>
     </section>
   );
 }

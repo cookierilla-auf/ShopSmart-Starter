@@ -8,6 +8,7 @@ export default function ProductsPage() {
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('All');
+  const [sortChoice, setSortChoice] = useState('default');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const { addToCart, cartMessage } = useCart();
@@ -35,6 +36,16 @@ export default function ProductsPage() {
     return matchesSearch && matchesCategory;
   });
 
+  // Sort a copy so the original catalog order remains available for the default view.
+  const sortedProducts = [...visibleProducts];
+  if (sortChoice === 'price-low-high') {
+    sortedProducts.sort((first, second) => Number(first.price) - Number(second.price));
+  } else if (sortChoice === 'price-high-low') {
+    sortedProducts.sort((first, second) => Number(second.price) - Number(first.price));
+  } else if (sortChoice === 'name-a-z') {
+    sortedProducts.sort((first, second) => first.name.localeCompare(second.name));
+  }
+
   return (
     <section>
       <div className="hero">
@@ -56,6 +67,15 @@ export default function ProductsPage() {
             {categories.map((item) => <option key={item}>{item}</option>)}
           </select>
         </label>
+        <label>
+          <span>Sort</span>
+          <select value={sortChoice} onChange={(event) => setSortChoice(event.target.value)}>
+            <option value="default">Default</option>
+            <option value="price-low-high">Price: low to high</option>
+            <option value="price-high-low">Price: high to low</option>
+            <option value="name-a-z">Name: A to Z</option>
+          </select>
+        </label>
       </div>
 
       <StatusMessage>{cartMessage}</StatusMessage>
@@ -64,7 +84,7 @@ export default function ProductsPage() {
       {!loading && !error && visibleProducts.length === 0 && <StatusMessage>No products match your filters.</StatusMessage>}
 
       <div className="product-grid">
-        {visibleProducts.map((product) => (
+        {sortedProducts.map((product) => (
           <ProductCard key={product.id} product={product} onAddToCart={addToCart} />
         ))}
       </div>

@@ -13,7 +13,7 @@ export default function App() {
   return (
     <div className="app-shell">
       <header className="site-header">
-        <NavLink className="brand" to="/">ShopSmart</NavLink>
+        <NavLink className="brand" to="/">SERGEANT ESCOTO</NavLink>
         <nav aria-label="Primary navigation">
           <NavLink to="/">Products</NavLink>
           <NavLink to="/assistant">AI Assistant</NavLink>
